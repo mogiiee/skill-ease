@@ -18,13 +18,12 @@ class CreatorSignUp(BaseModel):
 
 class UserSignUp(BaseModel):
     _id: 0
-    first_name: str
-    last_name: str
+    name:str
     email: str
     password: str
     creator = "no"
-    user_attributes = []
-    registered_courses= []
+    profile_pic: str
+
 
 
 class LoginSchema(BaseModel):
