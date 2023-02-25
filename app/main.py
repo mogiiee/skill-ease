@@ -27,21 +27,9 @@ async def greet():
 @app.post("/signup/creator", tags=["creator"])
 async def creator_signup(signup_details: Request):
     infoDict = await signup_details.json()
+    print(infoDict)
     infoDict = dict(infoDict)
-
-    # name = infoDict['Role']
-    # password = infoDict['Organisation']
-    # discription = infoDict['Stipend']
-    # profile_photo_link = infoDict['Qualification']
-    # Contact = infoDict['Contact']
-    # qualifications = infoDict['Stipend']
-    # creator_attributes_jobs = []
-    # Contact = infoDict['Contact']
-    # infoDict["creator"] = "yes"
-
-
-
-
+    print(infoDict)
     # Checking if email already exists
     email_count = database.user_collection.count_documents(
         {"email": infoDict["email"]}
@@ -56,8 +44,13 @@ async def creator_signup(signup_details: Request):
     return responses.response(True, "inserted", str(json_signup_details))
 
 
+
 @app.post("/login", tags=["login"])
-async def login(email: str, password: str):
+async def login(login_deets:Request):
+    infoDict = await login_deets.json()
+    print(infoDict)
+    email = infoDict['email']
+    password = infoDict['password']
     # Verify credentials
     if await ops.verify_credentials(email, password):
         return responses.response(True, "logged in", email)
@@ -102,36 +95,24 @@ async def detail_updater(newdeets: models.CreatorSignUp):
     
     database.user_collection.update_one(full_profile,)
 
-@app.post("/signup/creator", tags=["creator"])
-async def creator_signup(signup_details: models.CreatorSignUp):
-    # Checking if email already exists
-    email_count = database.user_collection.count_documents(
-        {"email": signup_details.email}
-    )
-    if email_count > 0:
-        return responses.response(False, "duplicated user, email already in use", None)
-    # Insert new user
-    encoded_password = ops.hash_password(str(signup_details.password))
-    signup_details.password = encoded_password
-    json_signup_details = jsonable_encoder(signup_details)
-    await ops.inserter(json_signup_details)
-    return responses.response(True, "inserted", str(json_signup_details))
-
-
-
 
 @app.post("/signup/user", tags=["user"])
-async def user_signup(signup_details: models.UserSignUp):
+async def user_signup(signup_details: Request):
+    # Checking if email already exists
+    infoDict = await signup_details.json()
+    print(infoDict)
+    infoDict = dict(infoDict)
+    print(infoDict)
     # Checking if email already exists
     email_count = database.user_collection.count_documents(
-        {"email": signup_details.email}
+        {"email": infoDict["email"]}
     )
     if email_count > 0:
         return responses.response(False, "duplicated user, email already in use", None)
     # Insert new user
-    encoded_password = ops.hash_password(str(signup_details.password))
-    signup_details.password = encoded_password
-    json_signup_details = jsonable_encoder(signup_details)
+    encoded_password = ops.hash_password(str(infoDict["password"]))
+    infoDict['password'] = encoded_password
+    json_signup_details = jsonable_encoder(infoDict)
     await ops.inserter(json_signup_details)
     return responses.response(True, "inserted", str(json_signup_details))
 
