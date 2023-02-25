@@ -1,9 +1,9 @@
 import copy
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.encoders import jsonable_encoder
 from . import models, responses, ops, database
-from app.auth.jwt_bearer import JWTBearer
-from app.auth import jwt_handler
+
+
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -25,17 +25,33 @@ async def greet():
 
 
 @app.post("/signup/creator", tags=["creator"])
-async def creator_signup(signup_details: models.CreatorSignUp):
+async def creator_signup(signup_details: Request):
+    infoDict = await signup_details.json()
+    infoDict = dict(infoDict)
+
+    # name = infoDict['Role']
+    # password = infoDict['Organisation']
+    # discription = infoDict['Stipend']
+    # profile_photo_link = infoDict['Qualification']
+    # Contact = infoDict['Contact']
+    # qualifications = infoDict['Stipend']
+    # creator_attributes_jobs = []
+    # Contact = infoDict['Contact']
+    # infoDict["creator"] = "yes"
+
+
+
+
     # Checking if email already exists
     email_count = database.user_collection.count_documents(
-        {"email": signup_details.email}
+        {"email": infoDict["email"]}
     )
     if email_count > 0:
         return responses.response(False, "duplicated user, email already in use", None)
     # Insert new user
-    encoded_password = ops.hash_password(str(signup_details.password))
-    signup_details.password = encoded_password
-    json_signup_details = jsonable_encoder(signup_details)
+    encoded_password = ops.hash_password(str(infoDict["password"]))
+    infoDict['password'] = encoded_password
+    json_signup_details = jsonable_encoder(infoDict)
     await ops.inserter(json_signup_details)
     return responses.response(True, "inserted", str(json_signup_details))
 
