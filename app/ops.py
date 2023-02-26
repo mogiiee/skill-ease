@@ -23,11 +23,13 @@ async def find_user_email(email):
     return user
 
 def creator_attributes_jobs_updater(WrongValue,CorrectValue):
-    database.user_collection.update_one({"creator_attributes_jobs":WrongValue},{"$set":{"creator_attributes_jobs":CorrectValue}}, upsert =True)
+    database.user_collection.update_one({"email":WrongValue},{"$set":{"creator_attributes_jobs":CorrectValue}}, upsert =True)
 
 def creator_attributes_courses_updater(WrongValue,CorrectValue):
-    database.user_collection.update_one({"creator_attributes_courses":WrongValue},{"$set":{"creator_attributes_courses":CorrectValue}}, upsert =True)
+    database.user_collection.update_one({"email":WrongValue},{"$set":{"creator_attributes_courses":CorrectValue}}, upsert =True)
 
+def creator_attributes_session_updater(WrongValue,CorrectValue):
+    database.user_collection.update_one({"email":WrongValue},{"$set":{"creator_attributes_sessions":CorrectValue}}, upsert =True)
 
 def deleter(id):
     database.user_collection.delete_one({"_id": ObjectId(id)})

@@ -41,7 +41,9 @@ async def creator_signup(signup_details: Request):
     infoDict['password'] = encoded_password
     json_signup_details = jsonable_encoder(infoDict)
     await ops.inserter(json_signup_details)
-    return responses.response(True, "inserted", str(json_signup_details))
+    return responses.response(True, "inserted", {
+        infoDict
+    })
 
 
 
@@ -53,7 +55,7 @@ async def login(login_deets:Request):
     password = infoDict['password']
     # Verify credentials
     if await ops.verify_credentials(email, password):
-        return responses.response(True, "logged in", email)
+        return responses.response(True, "logged in", {"email": email})
     else:
         raise HTTPException(401, "unauthorised login or email is wrong")
 
@@ -62,14 +64,15 @@ async def login(login_deets:Request):
 async def add_job(job_deets: Request):
     infoDict = await job_deets.json()
     json_job_deets = dict(infoDict)
-    email = infoDict['confirm_email']
+    email = infoDict['email']
     full_profile = await ops.find_user_email(email)
     creator_user_attributes = full_profile["creator_attributes_jobs"]
     original_attributes = copy.deepcopy(full_profile["creator_attributes_jobs"])
     creator_user_attributes.append(json_job_deets)
-    ops.creator_attributes_jobs_updater(original_attributes,creator_user_attributes)
+    print(creator_user_attributes)
+    ops.creator_attributes_jobs_updater(infoDict["email"],creator_user_attributes)
     ops.job_inserter(json_job_deets)
-    return responses.response(True, "job posted!", str(full_profile) and json_job_deets)
+    return responses.response(True, "job posted!", infoDict)
 
 
 
@@ -77,14 +80,40 @@ async def add_job(job_deets: Request):
 async def add_course(course_deets: Request):
     infoDict = await course_deets.json()
     json_course_deets = dict(infoDict)
-    email = infoDict["confirm_email"]
+    email = infoDict["email"]
     full_profile = await ops.find_user_email(email)
     creator_attributes_courses = full_profile["creator_attributes_courses"]
     original_attributes = copy.deepcopy(full_profile["creator_attributes_courses"])
     creator_attributes_courses.append(json_course_deets)
-    ops.creator_attributes_courses_updater(original_attributes,creator_attributes_courses)
+    ops.creator_attributes_courses_updater(infoDict["email"],creator_attributes_courses)
     ops.course_inserter(json_course_deets)
-    return responses.response(True, "course created!", str(full_profile) and json_course_deets)
+    return responses.response(True, "course created!", infoDict)
+
+
+@app.patch("/creator/session", tags=['creator'])
+async def add_session(session_deets: Request):
+    info_dict = await session_deets.json()
+    # print(info_dict)
+    info_dict = dict(info_dict)
+    email = info_dict["email"]
+    time = info_dict['time']
+    date = info_dict['date']
+
+    full_profile = await ops.find_user_email(email)
+    creator_attributes_sessions = full_profile["creator_attributes_sessions"]
+    original_creator_attributes_sessions = copy.deepcopy(full_profile["creator_attributes_sessions"])
+    new_dict = {
+        "time" : time,
+        "date": date
+     }
+    
+    print(new_dict)
+    creator_attributes_sessions.append(new_dict)  
+    print(creator_attributes_sessions)
+    ops.creator_attributes_session_updater(info_dict["email"], creator_attributes_sessions)
+    return responses.response(True, "session added!", creator_attributes_sessions)
+
+    
 
 
 
@@ -136,7 +165,10 @@ async def user_signup(signup_details: Request):
     infoDict['password'] = encoded_password
     json_signup_details = jsonable_encoder(infoDict)
     await ops.inserter(json_signup_details)
-    return responses.response(True, "inserted", str(json_signup_details))
+    return responses.response(True, "inserted", infoDict)
+
+
+
 
 
 
