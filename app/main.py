@@ -59,9 +59,10 @@ async def login(login_deets:Request):
 
 
 @app.post("/creator/add_job", tags=["creator"])
-async def add_job(job_deets: models.JobSchema):
-    json_job_deets = jsonable_encoder(job_deets)
-    email = job_deets.confirm_email
+async def add_job(job_deets: Request):
+    infoDict = await job_deets.json()
+    json_job_deets = dict(infoDict)
+    email = infoDict['confirm_email']
     full_profile = await ops.find_user_email(email)
     creator_user_attributes = full_profile["creator_attributes_jobs"]
     original_attributes = copy.deepcopy(full_profile["creator_attributes_jobs"])
@@ -73,9 +74,10 @@ async def add_job(job_deets: models.JobSchema):
 
 
 @app.post("/creator/add_course", tags=["creator"])
-async def add_course(course_deets: models.CourseSchema):
-    json_course_deets = jsonable_encoder(course_deets)
-    email = course_deets.confirm_email
+async def add_course(course_deets: Request):
+    infoDict = await course_deets.json()
+    json_course_deets = dict(infoDict)
+    email = infoDict["confirm_email"]
     full_profile = await ops.find_user_email(email)
     creator_attributes_courses = full_profile["creator_attributes_courses"]
     original_attributes = copy.deepcopy(full_profile["creator_attributes_courses"])
@@ -84,16 +86,36 @@ async def add_course(course_deets: models.CourseSchema):
     ops.course_inserter(json_course_deets)
     return responses.response(True, "course created!", str(full_profile) and json_course_deets)
 
+
+
 @app.patch("/update/mentor", tags=["creator"])
-async def detail_updater(newdeets: models.CreatorSignUp):
-    email = newdeets.email
+async def detail_updater(new_deets: Request):
+    infoDict = await new_deets.json()
+    dict(infoDict)
+    email = infoDict['email']
     full_profile = await ops.find_user_email(email)
-    old_name = full_profile['name']
-    old_profile_photo_link =full_profile["full_profile"]
-    old_discription = full_profile["discription"]
-    old_qualifications = full_profile["qualifications"]
-    
-    database.user_collection.update_one(full_profile,)
+    old_name = copy.deepcopy(full_profile['name'])
+    old_profile_photo_link =copy.deepcopy(full_profile["profile_photo_link"])
+    old_description = copy.deepcopy(full_profile["discription"])
+    old_qualifications = copy.deepcopy(full_profile["qualifications"])
+    new_name = infoDict["name"]
+    new_profile_photo_link = infoDict['profile_photo_link']
+    new_description = infoDict['description']
+    new_qualification = infoDict['qualification']
+    database.user_collection.update_one({"name":old_name},{"$set":{"name":new_name}})
+
+    database.user_collection.update_one({"discription":old_description},{"$set":{"discription": new_description}})
+
+    database.user_collection.update_one({"profile_photo_link":old_profile_photo_link},{"$set":{"profile_photo_link":new_profile_photo_link}})
+
+    database.user_collection.update_one({"qualifications":old_qualifications},{"$set":{"qualifications":new_qualification}})
+
+    return responses.response(True, "changed", {
+        old_qualifications:new_qualification,
+        old_description:new_description,
+        old_name: new_name,
+        old_profile_photo_link: new_profile_photo_link
+    })
 
 
 @app.post("/signup/user", tags=["user"])

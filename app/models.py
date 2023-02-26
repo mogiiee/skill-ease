@@ -8,7 +8,7 @@ class CreatorSignUp(BaseModel):
     password: str
     creator = "yes"
     profile_photo_link : str
-    discription : str
+    description : str
     qualifications: str
     creator_attributes_jobs =[]
     creator_attributes_courses = []
@@ -62,7 +62,7 @@ class mentor(BaseModel):
     password: str
     creator = "yes"
     profile_photo_link : str
-    discription : str
+    description : str
     creator_attributes_jobs =[]
     creator_attributes_courses = []
     tags = []
