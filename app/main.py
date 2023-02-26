@@ -39,11 +39,12 @@ async def creator_signup(signup_details: Request):
     # Insert new user
     encoded_password = ops.hash_password(str(infoDict["password"]))
     infoDict['password'] = encoded_password
+    print(infoDict)
     json_signup_details = jsonable_encoder(infoDict)
     await ops.inserter(json_signup_details)
-    return responses.response(True, "inserted", {
+    return responses.response(True, "inserted", 
         infoDict
-    })
+    )
 
 
 
@@ -171,6 +172,22 @@ async def user_signup(signup_details: Request):
 
 
 
+@app.get('/get_user')
+async def find_user_email(user_deets:Request):
+    infor_dict = await user_deets.json()
+    infor_dict = dict(infor_dict)
+    email = infor_dict["email"]
+    user = database.user_collection.find_one({"email": email})
+    print(user)
+    if not user:
+        return responses.response(False, "does not exist", email)
+    del user["_id"]
+    return user
+
+
+
+
+
 
 
 # @app.post("/user/register-course", tags=["user"])
@@ -196,28 +213,3 @@ async def user_signup(signup_details: Request):
 
 #     else: 
 #         return responses.response(False, "creator email is wrong", str(creator_email) )
-
-
-
-
-
-
-
-
-
-
-@app.delete("/collection/", tags=["do not touch"])
-async def delete_collection():
-    # Delete all documents in the user_collection
-    database.user_collection.delete_one({})
-
-    return {"success": True}
-
-@app.get('/get_user')
-async def find_user_email(email):
-    user = database.user_collection.find_one({"email": email})
-    print(user)
-    if not user:
-        return responses.response(False, "does not exist", email)
-    return str(user)
-
