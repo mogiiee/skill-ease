@@ -1,7 +1,7 @@
 import copy
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.encoders import jsonable_encoder
-from . import models, responses, ops, database
+from . import responses, ops, database
 
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -171,7 +171,6 @@ async def user_signup(signup_details: Request):
 
 
 
-
 @app.get('/get_user')
 async def find_user_email(user_deets:Request):
     infor_dict = await user_deets.json()
@@ -183,9 +182,6 @@ async def find_user_email(user_deets:Request):
         return responses.response(False, "does not exist", email)
     del user["_id"]
     return user
-
-
-
 
 
 
