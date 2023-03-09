@@ -186,26 +186,3 @@ async def find_user_email(user_deets:Request):
 
 
 
-# @app.post("/user/register-course", tags=["user"])
-# async def add_job(registeration_deets: models.RegisterForJob):
-#     json_registeration_deets = jsonable_encoder(registeration_deets)
-#     user_email = registeration_deets.comfirm_email
-#     user_full_profile = await ops.find_user_email(user_email)
-#     creator_email = registeration_deets.course_owner_email
-#     if ops.creator_or_user(creator_email):
-#         user_attributes = user_full_profile["user_attributes"]
-#         original_attributes = copy.deepcopy(user_attributes)
-#         user_attributes.append(json_registeration_deets)
-#         ops.user_attributes_updater(original_attributes,user_attributes)
-
-
-#         full_creator_profile = await ops.find_user_email(creator_email)
-#         registered_users = full_creator_profile["registered_users"]
-#         original_attributes = copy.deepcopy(full_creator_profile["registered_users"])
-#         registered_users.append(user_full_profile)
-#         ops.creator_attributes_updater(original_attributes,registered_users)
-#         return responses.response(True, "course added!", str(full_creator_profile) and json_registeration_deets)
-
-
-#     else: 
-#         return responses.response(False, "creator email is wrong", str(creator_email) )
