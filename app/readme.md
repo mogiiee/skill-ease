@@ -7,3 +7,6 @@ This project is a web application that allows users to automatically create a tr
 
 ## Transcript Creation
 To create a transcript of a video, the user needs to upload the video to the application. The application will then use Google Speech-to-Text API to generate a transcript of the video. Once the transcript is generated, the user can download it in the form of a text file.
+
+## Voiceover Change
+To change the audio of the video, the user needs to upload the video to the application and also upload the new audio file that they want to use for the voiceover. The application will then use FFmpeg to replace the audio of the video with the new audio file. Once the new video is generated, the user can download it.
