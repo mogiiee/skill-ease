@@ -13,3 +13,6 @@ To change the audio of the video, the user needs to upload the video to the appl
 
 ## Mentor Section
 The mentor section of the application allows mentors to update their details, such as name, email address, and profile picture. The mentor can also post courses that users can enroll in and watch in multiple languages at once.
+## Contributing
+If you would like to contribute to this project, please fork the repository and create a pull request. We welcome all contributions!
+## Run Locally
