@@ -16,3 +16,20 @@ The mentor section of the application allows mentors to update their details, su
 ## Contributing
 If you would like to contribute to this project, please fork the repository and create a pull request. We welcome all contributions!
 ## Run Locally
+Clone the project
+
+```bash
+  git clone https://github.com/mogiiee/skill-a-thon.git
+```
+
+Go to the project directory
+
+```bash
+  cd skill-a-thon
+```
+
+Install dependencies
+
+```bash
+  pip3 install -r requirements.txt
+```
