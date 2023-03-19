@@ -55,3 +55,12 @@ This is just the backend of the entire app for the rest of the content do check 
  - [repo 1](https://github.com/SubhanuSRoy/skill-ease)
  - [repo 2](https://github.com/chethanreddy123/Skill-a-thon)
  
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`USER_COLLECTION=`
+
+`TOTAL_POSTS_COLLECTION=`
+
+`TOTAL_JOBS_COLLECTION=`
