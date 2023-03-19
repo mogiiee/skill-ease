@@ -33,3 +33,12 @@ Install dependencies
 ```bash
   pip3 install -r requirements.txt
 ```
+
+## Authors
+
+- [@mogiiee](https://www.github.com/mogiiee)
+- [@SubhanuSRoy](https://www.github.com/SubhanuSRoy)
+- [@chethanreddy123](https://www.github.com/chethanreddy123)
+
+
+## Demo
