@@ -25,7 +25,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd skill-a-thon
+  cd skill-ease
 ```
 
 Install dependencies
