@@ -42,3 +42,16 @@ Install dependencies
 
 
 ## Demo
+
+you can check the working demo file [here](https://skillease.netlify.app/)
+
+## Points to remember 
+- The app is hosted on render and it might take some time to boot up slowly
+- There are only a few credits we can get as students for free so dont go crazy with the requests
+- If there are any errors you face while checking it out pls start a new issue. 
+
+### Note
+This is just the backend of the entire app for the rest of the content do check out the following repos
+ - [repo 1](https://github.com/SubhanuSRoy/skill-ease)
+ - [repo 2](https://github.com/chethanreddy123/Skill-a-thon)
+ 
