@@ -76,3 +76,9 @@ To run this project, you will need to add the following environment variables to
 ![Replies](https://discord.com/channels/1075402466675392572/1079576374903320636/1079586693868441680)
 ![courses](https://discord.com/channels/1075402466675392572/1079576374903320636/1079601237558829150)
 ![User flow](https://discord.com/channels/1075402466675392572/1079576374903320636/1079607028944732214)
+
+## Tech Stack
+
+**Client:** Gpt 3, FastAPI
+
+**Server:** Uvicorn, FastAPI
