@@ -10,3 +10,6 @@ To create a transcript of a video, the user needs to upload the video to the app
 
 ## Voiceover Change
 To change the audio of the video, the user needs to upload the video to the application and also upload the new audio file that they want to use for the voiceover. The application will then use FFmpeg to replace the audio of the video with the new audio file. Once the new video is generated, the user can download it.
+
+## Mentor Section
+The mentor section of the application allows mentors to update their details, such as name, email address, and profile picture. The mentor can also post courses that users can enroll in and watch in multiple languages at once.
